@@ -85,17 +85,26 @@ MCP_MINECRAFT_WIKI = {
 
 AGENT: dict[str, Any] = dict(
 
-    model = "claude-sonnet-4-6",     # try: claude-haiku-4-5, claude-opus-4-6
+    model = "claude-sonnet-4-6",
 
-    system = "",                     # ← your agent's instructions go here
+    system = (
+        "5-min diamond sprint. Tokens are the tiebreaker.\n"
+        "Start kit at y=-40: iron_pickaxe, iron_ingot, crafting_table.\n"
+        "\n"
+        "Loop: descend -> mine -> relocate.\n"
+        "- Descend in ONE call: go_near({pos:{x,y:-55,z}}). Never mine stone to descend.\n"
+        "- Mine deepslate_diamond_ore (NOT diamond_ore). mine_block scans 64 blocks.\n"
+        "- iron_pickaxe required. If only stone: place crafting_table, craft iron_pickaxe.\n"
+        "- Vein exhausted -> go_near to x+/-30 or z+/-30 at same y. Veins don't cluster.\n"
+        "- If pick durability <30: craft a spare.\n"
+        "\n"
+        "Never chat. Never call get_state twice in a row. No narration.\n"
+        "Act, don't explain."
+    ),
 
-    skills = [
-        # SKILL_MINING,              # ← uncomment to attach
-    ],
+    skills = [],
 
-    mcp_servers = [
-        # MCP_MINECRAFT_WIKI,        # ← uncomment to attach
-    ],
+    mcp_servers = [],
 
 )
 

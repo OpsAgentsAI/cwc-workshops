@@ -28,20 +28,7 @@ from agents.common import MODEL
 # As you refactor, DELETE entries from this list.
 # ──────────────────────────────────────────────────────────────────────────
 
-LEGACY_TOOLS = [
-    "get_stock_level",
-    "list_low_stock",            # Returns ~400 rows raw into context. Is there a way to compute the answer instead of dumping the data?
-    "get_sales_velocity",        # It's a mean. Does this need to be a tool?
-    "forecast_demand",           # Calls a subagent that returns prose. What gets lost when the orchestrator parses prose?
-    "get_supplier_catalog",
-    "compare_supplier_quotes",   # Calls a subagent to do what is essentially a sort.
-    "create_purchase_order",
-    "update_erp_record",
-    "send_slack_alert",          # Calls a writing subagent to fill what is essentially a template.
-    "draft_email_to_supplier",   # Same question.
-    "generate_weekly_report",    # Is the report structure a skill or a tool?
-    "search_web_for_disruptions",  # Does this belong in this agent at all?
-]
+LEGACY_TOOLS: list[str] = []  # all 12 retired: data → Bash on CSVs, policy → skills, writes → JSONL sinks
 
 
 # ──────────────────────────────────────────────────────────────────────────
@@ -51,11 +38,11 @@ LEGACY_TOOLS = [
 # ──────────────────────────────────────────────────────────────────────────
 
 SKILLS: list[str] = [
-    # "notify-templates",
-    # "weekly-report",
-    # "reorder-policy",
-    # "supplier-selection",
-    # "forecasting",
+    "notify-templates",
+    "weekly-report",
+    "reorder-policy",
+    "supplier-selection",
+    "forecasting",
 ]
 
 
@@ -116,7 +103,7 @@ def build_config(skill_ids: dict[str, str]) -> dict:
     return {
         "name": agent_name_for("stockpilot-starter"),
         "model": MODEL,
-        "system": LEGACY_PROMPT + _legacy_tools_note(),  # ← swap LEGACY_PROMPT to SHORT_PROMPT (cycle 1)
+        "system": SHORT_PROMPT + _legacy_tools_note(),
         "tools": tools,
         "skills": [
             {"type": "custom", "skill_id": skill_ids[n], "version": "latest"}

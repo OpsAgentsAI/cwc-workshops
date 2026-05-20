@@ -59,12 +59,12 @@ Load the `ANTHROPIC_API_KEY` from the `.env` file.
 
 # Git operations
 
-DO NOT COMMIT ANYTHING UNLESS EXPLICITLY ASKED BY THE USER.
+Only commit when the user explicitly asks for it.
 
 # TypeScript Code Style
 
-- Never add an explicit type guard signature to predicates like `.filter((x): x is Foo => x !== null)`. TypeScript infers type guards in latest versions, it's enough to write `.filter((x) => x !== null)` which is more type safe.
-- Don't use `export default`, always name exports
+- Rely on inferred type guards in predicates: write `.filter((x) => x !== null)` rather than `.filter((x): x is Foo => x !== null)` — recent TypeScript infers the guard and the inferred version is more type-safe.
+- Use named exports everywhere.
 
 # License headers
 
